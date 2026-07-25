@@ -1031,8 +1031,12 @@
     inset:4%;filter:none;background:#0d0c0b;border-radius:44% 56% 48% 52% / 38% 41% 59% 62%;
     overflow:hidden;display:block;
   }
-  .hero-portrait{width:100%;height:100%;object-fit:cover;object-position:50% 48%;transform:scale(1.01);image-rendering:auto;filter:none;}
-  .hero-photo-badge{
+  .hero-portrait{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1.018);transform-origin:center center;image-rendering:auto;filter:none;}
+  
+  @media(max-width:600px){
+    .hero-portrait{object-position:50% 50%;transform:scale(1.018);}
+  }
+.hero-photo-badge{
     position:absolute;left:50%;bottom:9%;transform:translateX(-50%);width:max-content;max-width:84%;
     padding:11px 18px;text-align:center;background:rgba(16,13,10,.78);border:1px solid rgba(234,217,174,.58);
     color:#fff;backdrop-filter:blur(7px);border-radius:4px;
@@ -1590,6 +1594,126 @@
   }
 </style>
 
+
+<style id="portfolio-gallery-styles">
+  /* ---------- GALERIA / COVERFLOW 3D ---------- */
+  .nav-links{gap:clamp(1rem,2vw,2.4rem);}
+  .portfolio-gallery-section{
+    position:relative;
+    padding:120px 0 130px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 12% 12%,rgba(198,154,64,.16),transparent 28%),
+      radial-gradient(circle at 88% 78%,rgba(176,138,78,.14),transparent 31%),
+      linear-gradient(180deg,#faf6ee 0%,#f1e7d4 52%,#faf6ee 100%);
+  }
+  .portfolio-gallery-section::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.26;
+    background-image:repeating-linear-gradient(115deg,rgba(28,23,18,.045) 0 1px,transparent 1px 17px);
+  }
+  .portfolio-gallery-head{
+    position:relative;z-index:2;max-width:1120px;margin:0 auto 48px;padding:0 6vw;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:32px;
+  }
+  .portfolio-gallery-head .eyebrow{display:block;margin-bottom:14px;}
+  .portfolio-gallery-head h2{
+    font-size:clamp(2.45rem,5vw,4.7rem);line-height:.98;text-transform:uppercase;
+  }
+  .portfolio-gallery-head h2 em{
+    display:block;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;
+    text-transform:none;color:var(--gold-deep);font-size:.62em;margin-top:10px;
+  }
+  .portfolio-gallery-copy{max-width:390px;font-size:.96rem;line-height:1.8;color:#5a5142;}
+  .coverflow-shell{position:relative;z-index:2;width:100%;}
+  .coverflow-stage{
+    position:relative;height:clamp(410px,56vw,610px);min-height:410px;
+    display:grid;place-items:center;perspective:1600px;overflow:hidden;outline:none;
+    touch-action:pan-y;
+  }
+  .coverflow-track{
+    position:relative;width:min(70vw,430px);aspect-ratio:1/1;transform-style:preserve-3d;
+  }
+  .coverflow-card{
+    position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;border-radius:30px;
+    overflow:hidden;background:#17130f;box-shadow:0 34px 70px -34px rgba(28,23,18,.58);
+    transform-style:preserve-3d;transform-origin:center;cursor:pointer;
+    transition:transform .62s cubic-bezier(.22,1,.36,1),opacity .62s cubic-bezier(.22,1,.36,1),filter .62s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .coverflow-card[aria-hidden="true"]{pointer-events:none;}
+  .coverflow-card img{width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;}
+  .coverflow-card::after{
+    content:"";position:absolute;inset:0;background:#000;opacity:var(--gallery-dim,.38);
+    transition:opacity .62s cubic-bezier(.22,1,.36,1);pointer-events:none;
+  }
+  .coverflow-card.is-active::after{opacity:0;}
+  .coverflow-card.is-active{cursor:zoom-in;}
+  .coverflow-card:focus-visible{outline:3px solid var(--gold);outline-offset:6px;}
+  .coverflow-card-number{
+    position:absolute;z-index:3;right:18px;top:18px;padding:7px 11px;border:1px solid rgba(255,255,255,.5);
+    border-radius:999px;background:rgba(18,14,10,.48);backdrop-filter:blur(8px);
+    color:#fff;font-size:.66rem;letter-spacing:.18em;
+  }
+  .coverflow-controls{
+    max-width:900px;margin:24px auto 0;padding:0 6vw;display:grid;
+    grid-template-columns:52px 1fr auto 1fr 52px;align-items:center;gap:18px;
+  }
+  .coverflow-arrow{
+    width:52px;height:52px;border-radius:50%;border:1px solid rgba(138,106,55,.42);
+    background:rgba(250,246,238,.74);color:var(--ink);font-size:1.25rem;cursor:pointer;
+    transition:transform .25s ease,background .25s ease,color .25s ease;
+  }
+  .coverflow-arrow:hover{transform:translateY(-2px);background:var(--ink);color:var(--cream-soft);}
+  .coverflow-rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+  .coverflow-counter{
+    min-width:90px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.25rem;
+    font-style:italic;color:var(--gold-deep);letter-spacing:.08em;
+  }
+  .coverflow-dots{display:flex;justify-content:center;gap:8px;margin-top:22px;}
+  .coverflow-dot{width:7px;height:7px;border:0;border-radius:50%;background:rgba(28,23,18,.22);padding:0;cursor:pointer;transition:.3s ease;}
+  .coverflow-dot.is-active{width:26px;border-radius:99px;background:var(--gold-deep);}
+  .portfolio-gallery-note{text-align:center;margin-top:18px;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#7b6c56;}
+
+  .gallery-lightbox{
+    position:fixed;inset:0;z-index:2000;display:grid;place-items:center;padding:22px;
+    background:rgba(12,9,6,.92);backdrop-filter:blur(12px);opacity:0;visibility:hidden;
+    transition:opacity .3s ease,visibility .3s ease;
+  }
+  .gallery-lightbox.is-open{opacity:1;visibility:visible;}
+  .gallery-lightbox-figure{position:relative;max-width:min(92vw,1080px);max-height:88vh;margin:0;display:grid;place-items:center;}
+  .gallery-lightbox-image{display:block;max-width:100%;max-height:84vh;border-radius:18px;box-shadow:0 35px 90px rgba(0,0,0,.5);}
+  .gallery-lightbox-close,.gallery-lightbox-nav{
+    position:absolute;z-index:2;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.48);
+    color:#fff;backdrop-filter:blur(8px);cursor:pointer;
+  }
+  .gallery-lightbox-close{right:0;top:0;transform:translate(40%,-40%);width:46px;height:46px;border-radius:50%;font-size:1.4rem;}
+  .gallery-lightbox-nav{top:50%;transform:translateY(-50%);width:48px;height:64px;border-radius:999px;font-size:1.35rem;}
+  .gallery-lightbox-prev{left:-68px}.gallery-lightbox-next{right:-68px}
+  .gallery-lightbox-caption{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.5);padding:8px 14px;border-radius:99px;font-size:.72rem;letter-spacing:.15em;white-space:nowrap;}
+  body.gallery-lightbox-open{overflow:hidden;}
+
+  @media(max-width:760px){
+    .portfolio-gallery-section{padding:90px 0 100px;}
+    .portfolio-gallery-head{display:block;margin-bottom:32px;}
+    .portfolio-gallery-copy{margin-top:20px;max-width:100%;}
+    .coverflow-stage{height:440px;min-height:440px;}
+    .coverflow-track{width:min(72vw,330px);}
+    .coverflow-card{border-radius:24px;transition-duration:.48s;}
+    .coverflow-controls{grid-template-columns:46px 1fr auto 1fr 46px;gap:10px;}
+    .coverflow-arrow{width:46px;height:46px;}
+    .gallery-lightbox-prev{left:8px}.gallery-lightbox-next{right:8px}
+    .gallery-lightbox-nav{position:fixed;top:50%;}
+    .gallery-lightbox-close{right:8px;top:8px;position:fixed;transform:none;}
+  }
+  @media(max-width:390px){
+    .coverflow-stage{height:400px;min-height:400px;}
+    .coverflow-track{width:min(74vw,290px);}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .coverflow-card,.coverflow-card::after,.gallery-lightbox{transition:none!important;}
+  }
+</style>
+
 </head>
 <body>
 <div class="defs-holder">
@@ -1611,6 +1735,7 @@
 <a href="#cilios">Cílios</a>
 <a href="#unhas">Unhas</a>
 <a href="#sobrancelhas">Sobrancelhas</a>
+<a href="#galeria">Galeria</a>
 <a href="#studio">Studio</a>
 </div>
 <a class="nav-cta" data-open-booking="" href="#agendamento">Agendar</a>
@@ -1767,6 +1892,74 @@
 <button class="service-book-btn" data-book-service="sobrancelha-design" type="button">Agendar este serviço →</button></div></div>
 </div>
 </section>
+
+<!-- GALERIA / TRABALHOS -->
+<section class="portfolio-gallery-section" id="galeria" aria-labelledby="galleryTitle">
+  <div class="portfolio-gallery-head reveal">
+    <div>
+      <span class="eyebrow">Galeria</span>
+      <h2 id="galleryTitle">Conheça meus<em>trabalhos</em></h2>
+    </div>
+    <p class="portfolio-gallery-copy">Detalhes, curvaturas e acabamentos criados para valorizar cada olhar com técnica, cuidado e personalidade.</p>
+  </div>
+  <div class="coverflow-shell reveal">
+    <div class="coverflow-stage" id="coverflowGallery" tabindex="0" role="region" aria-roledescription="carrossel" aria-label="Galeria de trabalhos do Studio Ferreira">
+      <div class="coverflow-track">
+        <button class="coverflow-card" type="button" data-gallery-index="0" aria-label="Ampliar trabalho de cílios 1">
+      <img src="./galeria/trabalho-01.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 1" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">01</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="1" aria-label="Ampliar trabalho de cílios 2">
+      <img src="./galeria/trabalho-02.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 2" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">02</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="2" aria-label="Ampliar trabalho de cílios 3">
+      <img src="./galeria/trabalho-03.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 3" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">03</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="3" aria-label="Ampliar trabalho de cílios 4">
+      <img src="./galeria/trabalho-04.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 4" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">04</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="4" aria-label="Ampliar trabalho de cílios 5">
+      <img src="./galeria/trabalho-05.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 5" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">05</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="5" aria-label="Ampliar trabalho de cílios 6">
+      <img src="./galeria/trabalho-06.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 6" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">06</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="6" aria-label="Ampliar trabalho de cílios 7">
+      <img src="./galeria/trabalho-07.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 7" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">07</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="7" aria-label="Ampliar trabalho de cílios 8">
+      <img src="./galeria/trabalho-08.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 8" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">08</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="8" aria-label="Ampliar trabalho de cílios 9">
+      <img src="./galeria/trabalho-09.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 9" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">09</span>
+    </button><button class="coverflow-card" type="button" data-gallery-index="9" aria-label="Ampliar trabalho de cílios 10">
+      <img src="./galeria/trabalho-10.webp" alt="Trabalho de extensão de cílios realizado no Studio Ferreira — foto 10" loading="lazy" decoding="async">
+      <span class="coverflow-card-number">10</span>
+    </button>
+      </div>
+    </div>
+    <div class="coverflow-controls" aria-label="Controles da galeria">
+      <button class="coverflow-arrow" id="coverflowPrev" type="button" aria-label="Foto anterior">←</button>
+      <span class="coverflow-rule" aria-hidden="true"></span>
+      <span class="coverflow-counter" id="coverflowCounter" aria-live="polite">01 / 10</span>
+      <span class="coverflow-rule" aria-hidden="true"></span>
+      <button class="coverflow-arrow" id="coverflowNext" type="button" aria-label="Próxima foto">→</button>
+    </div>
+    <div class="coverflow-dots" id="coverflowDots" aria-label="Selecionar foto"></div>
+    <p class="portfolio-gallery-note">Deslize, toque ou use as setas para navegar</p>
+  </div>
+</section>
+
+<div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Foto ampliada da galeria">
+  <figure class="gallery-lightbox-figure">
+    <img class="gallery-lightbox-image" id="galleryLightboxImage" alt="Trabalho de extensão de cílios ampliado">
+    <figcaption class="gallery-lightbox-caption" id="galleryLightboxCaption">01 / 10</figcaption>
+    <button class="gallery-lightbox-close" id="galleryLightboxClose" type="button" aria-label="Fechar foto">×</button>
+    <button class="gallery-lightbox-nav gallery-lightbox-prev" id="galleryLightboxPrev" type="button" aria-label="Foto anterior">←</button>
+    <button class="gallery-lightbox-nav gallery-lightbox-next" id="galleryLightboxNext" type="button" aria-label="Próxima foto">→</button>
+  </figure>
+</div>
+
 <!-- STUDIO / PARALLAX + POLICY -->
 <section class="studio-parallax-section" id="studio">
   <div class="studio-video-sticky" aria-hidden="true">
@@ -2784,6 +2977,155 @@
 
     scheduleScrollUpdate();
   })();
+</script>
+
+
+<script id="portfolio-gallery-script">
+(() => {
+  const stage = document.getElementById('coverflowGallery');
+  if (!stage) return;
+  const cards = [...stage.querySelectorAll('.coverflow-card')];
+  const prev = document.getElementById('coverflowPrev');
+  const next = document.getElementById('coverflowNext');
+  const counter = document.getElementById('coverflowCounter');
+  const dotsWrap = document.getElementById('coverflowDots');
+  const lightbox = document.getElementById('galleryLightbox');
+  const lightboxImage = document.getElementById('galleryLightboxImage');
+  const lightboxCaption = document.getElementById('galleryLightboxCaption');
+  const lightboxClose = document.getElementById('galleryLightboxClose');
+  const lightboxPrev = document.getElementById('galleryLightboxPrev');
+  const lightboxNext = document.getElementById('galleryLightboxNext');
+  const total = cards.length;
+  let active = 0;
+  let pointerStartX = null;
+  let pointerStartY = null;
+  let locked = false;
+
+  const dots = cards.map((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'coverflow-dot';
+    dot.setAttribute('aria-label', `Abrir foto ${i + 1}`);
+    dot.addEventListener('click', () => setActive(i));
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+
+  const normalise = i => ((i % total) + total) % total;
+  const pad = n => String(n).padStart(2, '0');
+  const isMobile = () => window.matchMedia('(max-width:760px)').matches;
+
+  function relativePosition(index) {
+    let rel = index - active;
+    if (rel > total / 2) rel -= total;
+    if (rel < -total / 2) rel += total;
+    return rel;
+  }
+
+  function render() {
+    const mobile = isMobile();
+    cards.forEach((card, i) => {
+      const rel = relativePosition(i);
+      const distance = Math.abs(rel);
+      const visible = distance <= 2;
+      const scale = Math.max(.48, 1 - distance * (mobile ? .145 : .13));
+      const spacing = mobile ? 116 : 225;
+      const tx = rel * spacing;
+      const tz = -distance * (mobile ? 190 : 235);
+      const rotateY = -rel * (mobile ? 16 : 19);
+      const rotateZ = rel * (mobile ? 4.5 : 7);
+      card.style.transform = `translateX(${tx}px) translateZ(${tz}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+      card.style.opacity = visible ? '1' : '0';
+      card.style.zIndex = String(20 - distance);
+      card.style.setProperty('--gallery-dim', distance === 0 ? '0' : distance === 1 ? '.38' : '.58');
+      card.classList.toggle('is-active', rel === 0);
+      card.setAttribute('aria-hidden', visible ? 'false' : 'true');
+      card.tabIndex = rel === 0 || distance === 1 ? 0 : -1;
+    });
+    counter.textContent = `${pad(active + 1)} / ${pad(total)}`;
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+  }
+
+  function setActive(index) {
+    if (locked) return;
+    locked = true;
+    active = normalise(index);
+    render();
+    window.setTimeout(() => { locked = false; }, isMobile() ? 480 : 620);
+  }
+  function step(direction) { setActive(active + direction); }
+
+  cards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      if (index === active) openLightbox(index);
+      else setActive(index);
+    });
+  });
+  prev.addEventListener('click', () => step(-1));
+  next.addEventListener('click', () => step(1));
+  stage.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    if (e.key === 'Enter') { e.preventDefault(); openLightbox(active); }
+  });
+
+  stage.addEventListener('pointerdown', e => {
+    pointerStartX = e.clientX;
+    pointerStartY = e.clientY;
+  });
+  stage.addEventListener('pointerup', e => {
+    if (pointerStartX === null) return;
+    const dx = e.clientX - pointerStartX;
+    const dy = e.clientY - pointerStartY;
+    pointerStartX = pointerStartY = null;
+    if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.15) step(dx < 0 ? 1 : -1);
+  });
+  stage.addEventListener('pointercancel', () => { pointerStartX = pointerStartY = null; });
+
+  function updateLightbox() {
+    const img = cards[active].querySelector('img');
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt;
+    lightboxCaption.textContent = `${pad(active + 1)} / ${pad(total)}`;
+  }
+  function openLightbox(index) {
+    active = normalise(index);
+    render();
+    updateLightbox();
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gallery-lightbox-open');
+    lightboxClose.focus({preventScroll:true});
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('gallery-lightbox-open');
+    cards[active].focus({preventScroll:true});
+  }
+  function lightboxStep(dir) {
+    active = normalise(active + dir);
+    render();
+    updateLightbox();
+  }
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', () => lightboxStep(-1));
+  lightboxNext.addEventListener('click', () => lightboxStep(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxStep(-1);
+    if (e.key === 'ArrowRight') lightboxStep(1);
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 120);
+  }, {passive:true});
+  render();
+})();
 </script>
 
 </body>
