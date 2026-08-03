@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Studio Ferreira | Painel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#18130e;--cream:#f6f0e5;--paper:#fffaf0;--gold:#b58a2f;--gold2:#e4c878;--line:rgba(68,52,30,.16);--muted:#766b5d;--danger:#a23d35;--ok:#2f6d4b;--shadow:0 24px 70px rgba(43,29,10,.12)}
+    *{box-sizing:border-box}html{background:var(--cream);color:var(--ink)}body{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at 15% 0%,rgba(228,200,120,.22),transparent 28%),var(--cream);min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+    .login-shell{min-height:100vh;display:grid;place-items:center;padding:24px}.login-card{width:min(460px,100%);background:rgba(255,250,240,.94);border:1px solid var(--line);box-shadow:var(--shadow);padding:34px}.brand{font-family:"Cormorant Garamond",serif;font-size:2.25rem;text-transform:uppercase;letter-spacing:.03em}.brand small{display:block;font:500 .7rem Inter,sans-serif;letter-spacing:.24em;color:var(--gold);margin-top:4px}.login-card p{color:var(--muted);line-height:1.6}.field{display:grid;gap:8px;margin:18px 0}.field label{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;padding:13px 14px;outline:0}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}.primary,.secondary,.danger{border:0;padding:12px 17px;font-weight:600}.primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1308}.secondary{background:transparent;border:1px solid var(--line);color:var(--ink)}.danger{background:#f4dfdc;color:var(--danger)}.full{width:100%}.message{margin-top:14px;padding:12px;background:#f4e5df;color:#7d2f28;font-size:.86rem;display:none}.message.show{display:block}.message.ok{background:#e4efe8;color:var(--ok)}
+    .app{min-height:100vh}.topbar{position:sticky;top:0;z-index:10;background:rgba(24,19,14,.96);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;gap:16px;align-items:center;backdrop-filter:blur(12px)}.topbar .brand{font-size:1.5rem}.topbar-actions{display:flex;gap:10px;align-items:center}.topbar-actions a{color:var(--gold2);text-decoration:none;font-size:.82rem}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 72px)}.sidebar{border-right:1px solid var(--line);padding:22px 14px;background:rgba(255,250,240,.58)}.navbtn{width:100%;text-align:left;border:0;background:transparent;padding:12px 14px;margin:3px 0;color:var(--muted);font-weight:600}.navbtn.active{background:var(--ink);color:#fff}.content{padding:28px;min-width:0}.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:22px}.page-head h1{font-family:"Cormorant Garamond",serif;font-size:2.5rem;margin:0}.page-head p{margin:4px 0 0;color:var(--muted)}.panel{background:rgba(255,250,240,.86);border:1px solid var(--line);box-shadow:0 12px 40px rgba(43,29,10,.06);padding:20px;margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.stat{padding:18px;background:var(--paper);border:1px solid var(--line)}.stat span{display:block;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em}.stat strong{display:block;font-family:"Cormorant Garamond",serif;font-size:2rem;margin-top:6px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.toolbar input,.toolbar select{border:1px solid var(--line);background:#fff;padding:10px 12px}.view-switch{display:flex;border:1px solid var(--line)}.view-switch button{border:0;background:#fff;padding:10px 13px}.view-switch button.active{background:var(--ink);color:#fff}.day-group{margin:22px 0}.day-title{font-family:"Cormorant Garamond",serif;font-size:1.65rem;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:12px}.appointment{display:grid;grid-template-columns:90px 1fr auto;gap:16px;align-items:start;background:#fff;border:1px solid var(--line);padding:15px;margin:10px 0}.appointment-time{font-family:"Cormorant Garamond",serif;font-size:1.6rem}.appointment h3{margin:0;font-size:1rem}.appointment p{margin:5px 0;color:var(--muted);font-size:.82rem;line-height:1.5}.appointment-actions{display:grid;gap:8px;min-width:150px}.appointment-actions select{padding:9px;border:1px solid var(--line);background:#fff}.wa{display:block;text-align:center;text-decoration:none;background:#e4efe8;color:var(--ok);padding:9px;font-size:.78rem;font-weight:600}.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line)}.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.form-grid .field{margin:0}.span2{grid-column:span 2}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{border-bottom:1px solid var(--line);padding:11px 8px;text-align:left;font-size:.82rem}.table th{font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.table input,.table select{width:100%;padding:8px;border:1px solid var(--line);background:#fff}.hours-row{display:grid;grid-template-columns:150px 90px 1fr 1fr 130px auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.pill{display:inline-block;padding:5px 8px;font-size:.68rem;font-weight:600}.pending{background:#f6ebcc;color:#7b5c13}.confirmed{background:#dcecdf;color:#286443}.completed{background:#e5e5e5;color:#444}.cancelled,.no_show{background:#f2dddd;color:#8e3832}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:sticky;top:67px;z-index:8;border-right:0;border-bottom:1px solid var(--line);display:flex;overflow:auto;padding:8px;background:rgba(246,240,229,.96)}.navbtn{width:auto;white-space:nowrap}.content{padding:20px 14px}.grid{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr 1fr}.hours-row{grid-template-columns:1fr 80px 1fr 1fr}.hours-row>:nth-child(5),.hours-row>:nth-child(6){grid-column:span 2}.appointment{grid-template-columns:72px 1fr}.appointment-actions{grid-column:1/-1;display:flex;min-width:0}.appointment-actions>*{flex:1}.page-head{align-items:flex-start;flex-direction:column}}
+    @media(max-width:560px){.grid,.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}.topbar{padding:13px 14px}.topbar .brand{font-size:1.25rem}.topbar-actions a{display:none}.content{padding:18px 10px}.panel{padding:14px}.page-head h1{font-size:2rem}.hours-row{grid-template-columns:1fr 74px}.hours-row>:nth-child(n+3){grid-column:1/-1}.appointment{grid-template-columns:60px 1fr;gap:10px}.appointment-actions{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <main class="login-shell" id="loginView">
+    <section class="login-card">
+      <div class="brand">Studio Ferreira<small>Painel administrativo</small></div>
+      <p>Entre com o e-mail administrativo para gerenciar horários, serviços e agendamentos.</p>
+      <form id="loginForm">
+        <div class="field"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" required></div>
+        <button class="primary full" type="submit">Entrar</button>
+      </form>
+      <div class="message" id="loginMessage"></div>
+    </section>
+  </main>
+
+  <main class="app hidden" id="appView">
+    <header class="topbar">
+      <div class="brand">Studio Ferreira</div>
+      <div class="topbar-actions"><a href="./index.html" target="_blank">Abrir site</a><button class="secondary" id="logoutBtn">Sair</button></div>
+    </header>
+    <div class="layout">
+      <nav class="sidebar" aria-label="Painel">
+        <button class="navbtn active" data-page="agenda">Agenda</button>
+        <button class="navbtn" data-page="bloqueios">Bloqueios</button>
+        <button class="navbtn" data-page="servicos">Serviços</button>
+        <button class="navbtn" data-page="horarios">Horários</button>
+      </nav>
+      <section class="content">
+        <div id="globalMessage" class="message"></div>
+
+        <section data-panel="agenda">
+          <div class="page-head"><div><h1>Agenda</h1><p>Agendamentos registrados pelo site.</p></div><div class="view-switch"><button data-view="day">Dia</button><button class="active" data-view="week">Semana</button><button data-view="month">Mês</button></div></div>
+          <div class="grid" id="stats"></div>
+          <div class="panel"><div class="toolbar"><button class="secondary" id="prevPeriod">←</button><input type="date" id="anchorDate"><button class="secondary" id="nextPeriod">→</button><select id="statusFilter"><option value="">Todos os status</option><option value="pending">Aguardando</option><option value="confirmed">Confirmados</option><option value="completed">Concluídos</option><option value="cancelled">Cancelados</option><option value="no_show">Não compareceu</option></select><button class="primary" id="refreshAgenda">Atualizar</button></div></div>
+          <div id="appointmentsList"></div>
+        </section>
+
+        <section data-panel="bloqueios" class="hidden">
+          <div class="page-head"><div><h1>Bloqueios</h1><p>Folgas, compromissos e intervalos indisponíveis.</p></div></div>
+          <form class="panel form-grid" id="blockForm">
+            <div class="field"><label>Data</label><input type="date" id="blockDate" required></div>
+            <div class="field"><label>Início</label><input type="time" id="blockStart" required></div>
+            <div class="field"><label>Fim</label><input type="time" id="blockEnd" required></div>
+            <div class="field"><label>Motivo</label><input type="text" id="blockReason" placeholder="Ex.: compromisso"></div>
+            <button class="primary" type="submit">Bloquear horário</button>
+          </form>
+          <div class="panel"><div id="blocksList"></div></div>
+        </section>
+
+        <section data-panel="servicos" class="hidden">
+          <div class="page-head"><div><h1>Serviços</h1><p>Altere valor, duração, sinal e disponibilidade.</p></div></div>
+          <div class="panel table-wrap"><table class="table"><thead><tr><th>Serviço</th><th>Valor</th><th>Duração</th><th>Sinal %</th><th>Ativo</th><th></th></tr></thead><tbody id="servicesBody"></tbody></table></div>
+        </section>
+
+        <section data-panel="horarios" class="hidden">
+          <div class="page-head"><div><h1>Horários</h1><p>Defina o funcionamento de cada dia.</p></div></div>
+          <div class="panel" id="hoursList"></div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-config.js"></script>
+  <script>
+  (() => {
+    const cfg = window.STUDIO_CONFIG || {};
+    const configured = cfg.supabaseUrl && cfg.supabaseAnonKey && !cfg.supabaseUrl.includes('COLE_AQUI') && !cfg.supabaseAnonKey.includes('COLE_AQUI');
+    const loginView = document.getElementById('loginView');
+    const appView = document.getElementById('appView');
+    const loginMessage = document.getElementById('loginMessage');
+    const globalMessage = document.getElementById('globalMessage');
+    const money = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+    const dateFmt = new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+    const dateTimeFmt = new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const days = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+    let client = null, currentView = 'week', anchor = new Date(), appointments = [];
+
+    function msg(el,text,type='error'){el.textContent=text;el.className='message show'+(type==='ok'?' ok':'');}
+    function clearMsg(el){el.textContent='';el.className='message';}
+    function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+    function startOfDay(d){const x=new Date(d);x.setHours(0,0,0,0);return x}
+    function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+    function monday(d){const x=startOfDay(d);const day=x.getDay();x.setDate(x.getDate()-(day===0?6:day-1));return x}
+    function range(){if(currentView==='day'){const s=startOfDay(anchor);return [s,addDays(s,1)]}if(currentView==='month'){const s=new Date(anchor.getFullYear(),anchor.getMonth(),1);return [s,new Date(anchor.getFullYear(),anchor.getMonth()+1,1)]}const s=monday(anchor);return [s,addDays(s,7)]}
+    function statusLabel(s){return {pending:'Aguardando',confirmed:'Confirmado',completed:'Concluído',cancelled:'Cancelado',no_show:'Não compareceu'}[s]||s}
+    function esc(s=''){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]))}
+
+    if(!configured){msg(loginMessage,'Configure o arquivo supabase-config.js antes de usar o painel.');return}
+    client = supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+
+    async function verifyAdmin(session){
+      if(!session){showLogin();return false}
+      const {data,error}=await client.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();
+      if(error||!data){await client.auth.signOut();showLogin();msg(loginMessage,'Este usuário não possui acesso administrativo.');return false}
+      showApp();await loadAll();return true;
+    }
+    function showLogin(){loginView.classList.remove('hidden');appView.classList.add('hidden')}
+    function showApp(){loginView.classList.add('hidden');appView.classList.remove('hidden')}
+
+    document.getElementById('loginForm').addEventListener('submit',async e=>{
+      e.preventDefault();clearMsg(loginMessage);
+      const email=document.getElementById('email').value.trim(), password=document.getElementById('password').value;
+      const {data,error}=await client.auth.signInWithPassword({email,password});
+      if(error){msg(loginMessage,'Não foi possível entrar. Confira e-mail e senha.');return}
+      await verifyAdmin(data.session);
+    });
+    document.getElementById('logoutBtn').addEventListener('click',async()=>{await client.auth.signOut();showLogin()});
+
+    document.querySelectorAll('.navbtn').forEach(btn=>btn.addEventListener('click',()=>{
+      document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x===btn));
+      document.querySelectorAll('[data-panel]').forEach(p=>p.classList.toggle('hidden',p.dataset.panel!==btn.dataset.page));
+      if(btn.dataset.page==='agenda') loadAppointments();
+      if(btn.dataset.page==='bloqueios') loadBlocks();
+      if(btn.dataset.page==='servicos') loadServices();
+      if(btn.dataset.page==='horarios') loadHours();
+    }));
+
+    document.querySelectorAll('[data-view]').forEach(btn=>btn.addEventListener('click',()=>{
+      currentView=btn.dataset.view;document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===btn));loadAppointments();
+    }));
+    document.getElementById('anchorDate').value=localDate(anchor);
+    document.getElementById('anchorDate').addEventListener('change',e=>{anchor=new Date(e.target.value+'T12:00:00');loadAppointments()});
+    document.getElementById('statusFilter').addEventListener('change',renderAppointments);
+    document.getElementById('refreshAgenda').addEventListener('click',loadAppointments);
+    document.getElementById('prevPeriod').addEventListener('click',()=>shift(-1));
+    document.getElementById('nextPeriod').addEventListener('click',()=>shift(1));
+    function shift(dir){anchor=addDays(anchor,dir*(currentView==='day'?1:currentView==='week'?7:30));document.getElementById('anchorDate').value=localDate(anchor);loadAppointments()}
+
+    async function loadAppointments(){
+      clearMsg(globalMessage);const [s,e]=range();
+      const {data,error}=await client.from('appointments').select('*').gte('starts_at',s.toISOString()).lt('starts_at',e.toISOString()).order('starts_at');
+      if(error){msg(globalMessage,'Erro ao carregar a agenda: '+error.message);return}
+      appointments=data||[];renderAppointments();renderStats();
+    }
+    function renderStats(){
+      const counts={all:appointments.length,pending:0,confirmed:0,completed:0};appointments.forEach(a=>{if(counts[a.status]!==undefined)counts[a.status]++});
+      document.getElementById('stats').innerHTML=`<div class="stat"><span>Total</span><strong>${counts.all}</strong></div><div class="stat"><span>Aguardando</span><strong>${counts.pending}</strong></div><div class="stat"><span>Confirmados</span><strong>${counts.confirmed}</strong></div><div class="stat"><span>Concluídos</span><strong>${counts.completed}</strong></div>`;
+    }
+    function renderAppointments(){
+      const filter=document.getElementById('statusFilter').value;const list=appointments.filter(a=>!filter||a.status===filter);const root=document.getElementById('appointmentsList');
+      if(!list.length){root.innerHTML='<div class="empty">Nenhum agendamento neste período.</div>';return}
+      const groups={};list.forEach(a=>{const key=localDate(new Date(a.starts_at));(groups[key]??=[]).push(a)});
+      root.innerHTML=Object.entries(groups).map(([key,items])=>`<section class="day-group"><h2 class="day-title">${dateFmt.format(new Date(key+'T12:00:00'))}</h2>${items.map(card).join('')}</section>`).join('');
+      root.querySelectorAll('[data-status]').forEach(sel=>sel.addEventListener('change',()=>updateStatus(sel.dataset.status,sel.value)));
+    }
+    function card(a){const d=new Date(a.starts_at);const end=new Date(a.ends_at);const phone=(a.customer_phone_digits||'').replace(/^55/,'');const wa=`https://wa.me/55${phone}?text=${encodeURIComponent('Olá, '+a.customer_name+'! Sobre seu agendamento no Studio Ferreira:')}`;return `<article class="appointment"><div class="appointment-time">${d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div><div><h3>${esc(a.customer_name)} · ${esc(a.service_name_snapshot)}</h3><p>${esc(a.customer_phone)} · até ${end.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}<br>${money.format(Number(a.price_snapshot))} · sinal ${money.format(Number(a.deposit_amount_snapshot))}${a.notes?'<br>Obs.: '+esc(a.notes):''}</p><span class="pill ${a.status}">${statusLabel(a.status)}</span></div><div class="appointment-actions"><select data-status="${a.id}">${['pending','confirmed','completed','cancelled','no_show'].map(s=>`<option value="${s}" ${s===a.status?'selected':''}>${statusLabel(s)}</option>`).join('')}</select><a class="wa" href="${wa}" target="_blank" rel="noopener">Abrir WhatsApp</a></div></article>`}
+    async function updateStatus(id,status){const {error}=await client.from('appointments').update({status}).eq('id',id);if(error)msg(globalMessage,'Não foi possível alterar o status: '+error.message);else{msg(globalMessage,'Status atualizado.','ok');loadAppointments()}}
+
+    document.getElementById('blockDate').value=localDate();
+    document.getElementById('blockForm').addEventListener('submit',async e=>{e.preventDefault();clearMsg(globalMessage);const date=document.getElementById('blockDate').value,start=document.getElementById('blockStart').value,end=document.getElementById('blockEnd').value,reason=document.getElementById('blockReason').value;const {error}=await client.rpc('admin_create_block',{p_date:date,p_start_time:start,p_end_time:end,p_reason:reason||null});if(error)msg(globalMessage,'Não foi possível bloquear: '+error.message);else{msg(globalMessage,'Horário bloqueado.','ok');e.target.reset();document.getElementById('blockDate').value=localDate();loadBlocks()}});
+    async function loadBlocks(){const {data,error}=await client.from('blocked_times').select('*').gte('ends_at',new Date().toISOString()).order('starts_at');const root=document.getElementById('blocksList');if(error){root.innerHTML='<div class="empty">Erro ao carregar.</div>';return}if(!data?.length){root.innerHTML='<div class="empty">Nenhum bloqueio futuro.</div>';return}root.innerHTML=data.map(b=>`<article class="appointment"><div class="appointment-time">${new Date(b.starts_at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div><div><h3>${dateTimeFmt.format(new Date(b.starts_at))}</h3><p>Até ${dateTimeFmt.format(new Date(b.ends_at))}${b.reason?'<br>'+esc(b.reason):''}</p></div><div class="appointment-actions"><button class="danger" data-delete-block="${b.id}">Excluir</button></div></article>`).join('');root.querySelectorAll('[data-delete-block]').forEach(btn=>btn.addEventListener('click',async()=>{if(!confirm('Excluir este bloqueio?'))return;await client.from('blocked_times').delete().eq('id',btn.dataset.deleteBlock);loadBlocks()}))}
+
+    async function loadServices(){const {data,error}=await client.from('services').select('*').order('display_order');const body=document.getElementById('servicesBody');if(error){body.innerHTML='<tr><td colspan="6">Erro ao carregar.</td></tr>';return}body.innerHTML=(data||[]).map(s=>`<tr data-service="${s.id}"><td><strong>${esc(s.name)}</strong><br><small>${esc(s.category)}</small></td><td><input data-f="price" type="number" step="0.01" value="${s.price}"></td><td><input data-f="duration_minutes" type="number" step="15" value="${s.duration_minutes}"></td><td><input data-f="deposit_percent" type="number" step="1" value="${s.deposit_percent}"></td><td><select data-f="active"><option value="true" ${s.active?'selected':''}>Sim</option><option value="false" ${!s.active?'selected':''}>Não</option></select></td><td><button class="primary" data-save-service>Salvar</button></td></tr>`).join('');body.querySelectorAll('[data-save-service]').forEach(btn=>btn.addEventListener('click',()=>saveService(btn.closest('tr'))))}
+    async function saveService(row){const payload={};row.querySelectorAll('[data-f]').forEach(i=>payload[i.dataset.f]=i.dataset.f==='active'?i.value==='true':Number(i.value));const {error}=await client.from('services').update(payload).eq('id',row.dataset.service);if(error)msg(globalMessage,'Erro ao salvar serviço: '+error.message);else msg(globalMessage,'Serviço atualizado.','ok')}
+
+    async function loadHours(){const {data,error}=await client.from('business_hours').select('*').order('day_of_week');const root=document.getElementById('hoursList');if(error){root.innerHTML='<div class="empty">Erro ao carregar.</div>';return}root.innerHTML=(data||[]).map(h=>`<div class="hours-row" data-hour="${h.id}"><strong>${days[h.day_of_week]}</strong><select data-h="active"><option value="true" ${h.active?'selected':''}>Aberto</option><option value="false" ${!h.active?'selected':''}>Fechado</option></select><input data-h="open_time" type="time" value="${String(h.open_time).slice(0,5)}"><input data-h="close_time" type="time" value="${String(h.close_time).slice(0,5)}"><select data-h="slot_interval_minutes"><option value="15" ${h.slot_interval_minutes===15?'selected':''}>15 min</option><option value="30" ${h.slot_interval_minutes===30?'selected':''}>30 min</option><option value="60" ${h.slot_interval_minutes===60?'selected':''}>60 min</option></select><button class="primary" data-save-hour>Salvar</button></div>`).join('');root.querySelectorAll('[data-save-hour]').forEach(btn=>btn.addEventListener('click',()=>saveHour(btn.closest('[data-hour]'))))}
+    async function saveHour(row){const payload={};row.querySelectorAll('[data-h]').forEach(i=>payload[i.dataset.h]=i.dataset.h==='active'?i.value==='true':i.dataset.h==='slot_interval_minutes'?Number(i.value):i.value);const {error}=await client.from('business_hours').update(payload).eq('id',row.dataset.hour);if(error)msg(globalMessage,'Erro ao salvar horário: '+error.message);else msg(globalMessage,'Horário atualizado.','ok')}
+
+    async function loadAll(){await Promise.all([loadAppointments(),loadBlocks(),loadServices(),loadHours()])}
+    client.auth.getSession().then(({data})=>verifyAdmin(data.session));
+    client.auth.onAuthStateChange((_event,session)=>{if(!session)showLogin()});
+  })();
+  </script>
+</body>
+</html>

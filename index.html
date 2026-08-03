@@ -2097,7 +2097,7 @@
 </div>
 </div>
 </section>
-<!-- AGENDA DEMONSTRATIVA (front-end, pronta para Supabase) -->
+<!-- AGENDA ONLINE CONECTADA AO SUPABASE -->
 <div aria-hidden="true" class="booking-overlay" id="bookingOverlay">
 <section aria-labelledby="bookingTitle" aria-modal="true" class="booking-modal" id="agendamento" role="dialog">
 <div class="booking-modal-head">
@@ -2109,7 +2109,7 @@
 </div>
 <div class="booking-demo-note">
 <span aria-hidden="true" class="booking-demo-dot"></span>
-<p><strong>Versão demonstrativa:</strong> os agendamentos e bloqueios ficam salvos apenas neste aparelho. Ao conectar o Supabase, a agenda será compartilhada entre todas as clientes e o Studio.</p>
+<p><strong>Agenda online:</strong> os horários são consultados em tempo real. Depois do envio, a solicitação aparecerá no painel administrativo do Studio.</p>
 </div>
 <ol aria-label="Etapas do agendamento" class="booking-progress">
 <li class="is-active" data-progress="1"><span>1</span> Serviço</li>
@@ -2137,7 +2137,7 @@
 </section>
 <section class="booking-step" data-step="2" hidden="">
 <h3 class="booking-step-title">Escolha a data e o horário</h3>
-<p class="booking-step-intro">Domingos não estão disponíveis nesta demonstração. Horários já escolhidos neste aparelho aparecem bloqueados.</p>
+<p class="booking-step-intro">O sistema mostra somente os horários realmente disponíveis para o procedimento escolhido.</p>
 <div class="booking-field">
 <label for="bookingDate">Data</label>
 <input id="bookingDate" name="date" required="" type="date"/>
@@ -2190,13 +2190,13 @@
 <div class="booking-actions">
 <button class="booking-btn secondary" hidden="" id="bookingBack" type="button">Voltar</button>
 <button class="booking-btn primary" id="bookingNext" type="button">Continuar</button>
-<button class="booking-btn primary" hidden="" id="bookingSubmit" type="submit">Solicitar no WhatsApp</button>
+<button class="booking-btn primary" hidden="" id="bookingSubmit" type="submit">Confirmar solicitação</button>
 </div>
 </form>
 <div class="booking-success" id="bookingSuccess">
 <div class="booking-success-mark">✓</div>
-<h3>Solicitação preparada</h3>
-<p>O agendamento foi salvo nesta demonstração e o WhatsApp foi aberto com todos os dados. Basta enviar a mensagem para o Studio confirmar.</p>
+<h3>Solicitação registrada</h3>
+<p>O pedido foi salvo na agenda do Studio. Envie a mensagem no WhatsApp para receber a confirmação e as orientações sobre o sinal.</p>
 <div class="booking-success-actions">
 <button class="booking-btn secondary" id="bookingNew" type="button">Novo agendamento</button>
 <button class="booking-btn primary" id="bookingFinish" type="button">Fechar</button>
@@ -2204,29 +2204,13 @@
 </div>
 </section>
 </div>
-<button class="demo-panel-trigger" id="demoPanelOpen" type="button">Painel de teste</button>
-<div aria-hidden="true" class="demo-panel-overlay" id="demoPanelOverlay">
-<aside aria-labelledby="demoPanelTitle" aria-modal="true" class="demo-panel" role="dialog">
-<div class="demo-panel-head">
-<div>
-<span class="eyebrow">Somente neste aparelho</span>
-<h2 id="demoPanelTitle">Agendamentos de teste</h2>
-</div>
-<button aria-label="Fechar painel" class="booking-close" id="demoPanelClose" type="button">×</button>
-</div>
-<div class="demo-panel-body">
-<p class="demo-panel-note">Este painel serve apenas para testar a lógica antes do Supabase. Ele não é um painel administrativo real e os dados não aparecem em outros celulares.</p>
-<div class="demo-booking-list" id="demoBookingList"></div>
-</div>
-<div class="demo-panel-footer">
-<button class="demo-clear" id="demoClear" type="button">Apagar todos os testes</button>
-</div>
-</aside>
-</div>
 <footer>
 <span>© Studio Ferreira — Vitória Ferreira</span>
 <span>Cílios · Unhas · Sobrancelhas</span>
+<a href="./admin.html" style="color:inherit;text-decoration:none">Painel administrativo</a>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
 <script>
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
@@ -2241,37 +2225,19 @@
 
   document.querySelectorAll('.reveal, .lash-divider').forEach(el => io.observe(el));
 
-  /* ---------- AGENDA DEMONSTRATIVA ---------- */
-  const STUDIO_WHATSAPP = '5517996558867';
-  const STORAGE_KEY = 'studioFerreiraDemoBookings';
-  const TIME_SLOTS = ['08:00', '09:30', '11:00', '13:30', '15:00', '16:30', '18:00'];
+  /* ---------- AGENDA ONLINE — SUPABASE ---------- */
+  const STUDIO_CFG = window.STUDIO_CONFIG || {};
+  const STUDIO_WHATSAPP = STUDIO_CFG.studioWhatsapp || '5517996558867';
+  const SUPABASE_CONFIGURED = Boolean(
+    STUDIO_CFG.supabaseUrl && STUDIO_CFG.supabaseAnonKey &&
+    !STUDIO_CFG.supabaseUrl.includes('COLE_AQUI') &&
+    !STUDIO_CFG.supabaseAnonKey.includes('COLE_AQUI')
+  );
+  const supabaseClient = SUPABASE_CONFIGURED
+    ? supabase.createClient(STUDIO_CFG.supabaseUrl, STUDIO_CFG.supabaseAnonKey)
+    : null;
 
-  const SERVICES = [
-    { group:'Extensão de cílios', id:'cilios-brasileiro-colocacao', name:'Cílios Brasileiro — Colocação', price:120 },
-    { group:'Extensão de cílios', id:'cilios-brasileiro-manutencao', name:'Cílios Brasileiro — Manutenção', price:90 },
-    { group:'Extensão de cílios', id:'cilios-3d-colocacao', name:'Cílios 3D — Colocação', price:130 },
-    { group:'Extensão de cílios', id:'cilios-3d-manutencao', name:'Cílios 3D — Manutenção', price:90 },
-    { group:'Extensão de cílios', id:'cilios-4d-colocacao', name:'Cílios 4D — Colocação', price:140 },
-    { group:'Extensão de cílios', id:'cilios-4d-manutencao', name:'Cílios 4D — Manutenção', price:100 },
-    { group:'Extensão de cílios', id:'cilios-5d-colocacao', name:'Cílios 5D — Colocação', price:150 },
-    { group:'Extensão de cílios', id:'cilios-5d-manutencao', name:'Cílios 5D — Manutenção', price:100 },
-    { group:'Extensão de cílios', id:'cilios-6d-colocacao', name:'Cílios 6D — Colocação', price:160 },
-    { group:'Extensão de cílios', id:'cilios-6d-manutencao', name:'Cílios 6D — Manutenção', price:110 },
-    { group:'Extensão de cílios', id:'cilios-8d-colocacao', name:'Cílios 8D — Colocação', price:180 },
-    { group:'Extensão de cílios', id:'cilios-8d-manutencao', name:'Cílios 8D — Manutenção', price:130 },
-    { group:'Extensão de cílios', id:'cilios-fox-colocacao', name:'Cílios Fox — Colocação', price:150 },
-    { group:'Extensão de cílios', id:'cilios-fox-manutencao', name:'Cílios Fox — Manutenção', price:100 },
-    { group:'Extensão de cílios', id:'cilios-marrom-colocacao', name:'Cílios Marrom — Colocação', price:140 },
-    { group:'Extensão de cílios', id:'cilios-marrom-manutencao', name:'Cílios Marrom — Manutenção', price:100 },
-    { group:'Unhas', id:'unhas-fibra-colocacao', name:'Unhas de Fibra — Colocação', price:160 },
-    { group:'Unhas', id:'unhas-fibra-manutencao', name:'Unhas de Fibra — Manutenção', price:100 },
-    { group:'Unhas', id:'unhas-molde-f1-colocacao', name:'Molde F1 — Colocação', price:140 },
-    { group:'Unhas', id:'unhas-molde-f1-manutencao', name:'Molde F1 — Manutenção', price:90 },
-    { group:'Unhas', id:'unhas-esmaltacao-gel', name:'Esmaltação em gel', price:50 },
-    { group:'Sobrancelhas', id:'sobrancelha-henna', name:'Sobrancelha com henna', price:40 },
-    { group:'Sobrancelhas', id:'sobrancelha-design', name:'Design simples de sobrancelha', price:30 }
-  ];
-
+  let SERVICES = [];
   const currency = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
   const longDate = new Intl.DateTimeFormat('pt-BR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
 
@@ -2302,6 +2268,8 @@
   let currentStep = 1;
   let selectedTime = '';
   let lastFocusedElement = null;
+  let pendingServiceSlug = '';
+  let loadingSlots = false;
 
   function getLocalDateString(date = new Date()) {
     const year = date.getFullYear();
@@ -2315,70 +2283,22 @@
     return new Date(year, month - 1, day, 12, 0, 0);
   }
 
-  function getBookings() {
-    try {
-      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      return Array.isArray(stored) ? stored : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function saveBookings(bookings) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  function buildServiceOptions() {
-    const groups = SERVICES.reduce((acc, service) => {
-      if (!acc[service.group]) acc[service.group] = [];
-      acc[service.group].push(service);
-      return acc;
-    }, {});
-
-    Object.entries(groups).forEach(([label, services]) => {
-      const optgroup = document.createElement('optgroup');
-      optgroup.label = label;
-      services.forEach(service => {
-        const option = document.createElement('option');
-        option.value = service.id;
-        option.textContent = `${service.name} — ${currency.format(service.price)}`;
-        optgroup.appendChild(option);
-      });
-      bookingService.appendChild(optgroup);
-    });
-  }
-
   function selectedService() {
     return SERVICES.find(service => service.id === bookingService.value) || null;
   }
 
-  function setDateLimits() {
-    const today = new Date();
-    const max = new Date();
-    max.setDate(max.getDate() + 90);
-    bookingDate.min = getLocalDateString(today);
-    bookingDate.max = getLocalDateString(max);
+  function escapeHtml(value = '') {
+    return String(value).replace(/[&<>'"]/g, char => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#039;', '"':'&quot;'
+    }[char]));
   }
 
-  function openBooking(event) {
-    if (event) event.preventDefault();
-    lastFocusedElement = document.activeElement;
-    bookingOverlay.classList.add('is-open');
-    bookingOverlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('booking-open');
-    setTimeout(() => bookingClose.focus(), 80);
-  }
-
-  function closeBooking() {
-    bookingOverlay.classList.remove('is-open');
-    bookingOverlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('booking-open');
-    if (lastFocusedElement) lastFocusedElement.focus();
+  function formatPhone(value) {
+    const digits = value.replace(/\D/g, '').slice(0, 11);
+    if (digits.length <= 2) return digits.replace(/(\d{0,2})/, '($1');
+    if (digits.length <= 6) return digits.replace(/(\d{2})(\d+)/, '($1) $2');
+    if (digits.length <= 10) return digits.replace(/(\d{2})(\d{4})(\d+)/, '($1) $2-$3');
+    return digits.replace(/(\d{2})(\d{5})(\d+)/, '($1) $2-$3');
   }
 
   function showError(message) {
@@ -2389,6 +2309,85 @@
   function clearError() {
     bookingError.textContent = '';
     bookingError.classList.remove('is-visible');
+  }
+
+  function setDateLimits() {
+    const today = new Date();
+    const max = new Date();
+    max.setDate(max.getDate() + 120);
+    bookingDate.min = getLocalDateString(today);
+    bookingDate.max = getLocalDateString(max);
+  }
+
+  async function loadServices() {
+    bookingService.innerHTML = '<option value="">Carregando procedimentos...</option>';
+    bookingService.disabled = true;
+
+    if (!SUPABASE_CONFIGURED) {
+      bookingService.innerHTML = '<option value="">Agenda aguardando configuração</option>';
+      showError('A agenda online ainda precisa ser conectada ao banco de dados.');
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from('services')
+      .select('id, slug, category, name, price, duration_minutes, deposit_percent, display_order')
+      .eq('active', true)
+      .order('display_order');
+
+    if (error) {
+      bookingService.innerHTML = '<option value="">Não foi possível carregar</option>';
+      showError('Não foi possível carregar os procedimentos. Tente novamente em alguns instantes.');
+      return;
+    }
+
+    SERVICES = data || [];
+    bookingService.innerHTML = '<option value="">Selecione uma opção</option>';
+    const groups = SERVICES.reduce((acc, service) => {
+      if (!acc[service.category]) acc[service.category] = [];
+      acc[service.category].push(service);
+      return acc;
+    }, {});
+
+    Object.entries(groups).forEach(([label, services]) => {
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = label;
+      services.forEach(service => {
+        const option = document.createElement('option');
+        option.value = service.id;
+        option.textContent = `${service.name} — ${currency.format(Number(service.price))}`;
+        option.dataset.slug = service.slug;
+        optgroup.appendChild(option);
+      });
+      bookingService.appendChild(optgroup);
+    });
+    bookingService.disabled = false;
+
+    if (pendingServiceSlug) {
+      const service = SERVICES.find(item => item.slug === pendingServiceSlug);
+      if (service) {
+        bookingService.value = service.id;
+        bookingService.dispatchEvent(new Event('change', { bubbles:true }));
+      }
+      pendingServiceSlug = '';
+    }
+  }
+
+  function openBooking(event) {
+    if (event) event.preventDefault();
+    lastFocusedElement = document.activeElement;
+    bookingOverlay.classList.add('is-open');
+    bookingOverlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('booking-open');
+    setTimeout(() => bookingClose.focus(), 80);
+    if (!SERVICES.length && SUPABASE_CONFIGURED) loadServices();
+  }
+
+  function closeBooking() {
+    bookingOverlay.classList.remove('is-open');
+    bookingOverlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('booking-open');
+    if (lastFocusedElement) lastFocusedElement.focus();
   }
 
   function goToStep(step) {
@@ -2410,6 +2409,10 @@
   }
 
   function validateStep(step) {
+    if (!SUPABASE_CONFIGURED) {
+      showError('A agenda ainda não está conectada.');
+      return false;
+    }
     if (step === 1 && !selectedService()) {
       showError('Selecione um procedimento para continuar.');
       bookingService.focus();
@@ -2442,94 +2445,77 @@
     return true;
   }
 
-  function renderTimes() {
+  async function renderTimes() {
     selectedTime = '';
     bookingTimes.innerHTML = '';
-
-    if (!bookingDate.value) {
-      bookingTimes.innerHTML = '<div class="booking-empty-times">Escolha uma data acima.</div>';
+    if (!bookingDate.value || !selectedService()) {
+      bookingTimes.innerHTML = '<div class="booking-empty-times">Escolha o procedimento e a data.</div>';
       bookingDateHint.textContent = 'Selecione uma data para visualizar os horários.';
       return;
     }
+    if (loadingSlots) return;
+    loadingSlots = true;
+    bookingTimes.innerHTML = '<div class="booking-empty-times">Consultando agenda...</div>';
+    bookingDateHint.textContent = 'Buscando horários disponíveis em tempo real.';
 
-    const date = parseLocalDate(bookingDate.value);
-    if (date.getDay() === 0) {
-      bookingTimes.innerHTML = '<div class="booking-empty-times">O Studio não abre aos domingos nesta demonstração. Escolha outra data.</div>';
-      bookingDateHint.textContent = 'Domingos estão indisponíveis.';
+    const service = selectedService();
+    const { data, error } = await supabaseClient.rpc('get_available_slots', {
+      p_service_id: service.id,
+      p_date: bookingDate.value
+    });
+    loadingSlots = false;
+    bookingTimes.innerHTML = '';
+
+    if (error) {
+      bookingTimes.innerHTML = '<div class="booking-empty-times">Não foi possível consultar os horários.</div>';
+      bookingDateHint.textContent = 'Tente novamente em alguns instantes.';
       return;
     }
 
-    const occupied = new Set(
-      getBookings()
-        .filter(item => item.date === bookingDate.value)
-        .map(item => item.time)
-    );
-    const now = new Date();
-    const isToday = bookingDate.value === getLocalDateString(now);
-    let availableCount = 0;
+    const slots = data || [];
+    if (!slots.length) {
+      bookingTimes.innerHTML = '<div class="booking-empty-times">Não há horários livres nesta data. Escolha outro dia.</div>';
+      bookingDateHint.textContent = `Agenda indisponível em ${longDate.format(parseLocalDate(bookingDate.value))}.`;
+      return;
+    }
 
-    TIME_SLOTS.forEach(time => {
+    slots.forEach(slot => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'booking-time';
-      button.textContent = time;
-
-      const [hour, minute] = time.split(':').map(Number);
-      const slotDate = parseLocalDate(bookingDate.value);
-      slotDate.setHours(hour, minute, 0, 0);
-      const unavailable = occupied.has(time) || (isToday && slotDate <= now);
-      button.disabled = unavailable;
-      if (!unavailable) availableCount += 1;
-
+      button.textContent = slot.label || String(slot.slot_time).slice(0,5);
       button.addEventListener('click', () => {
-        document.querySelectorAll('.booking-time').forEach(item => item.classList.remove('is-selected'));
+        bookingTimes.querySelectorAll('.booking-time').forEach(item => item.classList.remove('is-selected'));
         button.classList.add('is-selected');
-        selectedTime = time;
+        selectedTime = String(slot.slot_time).slice(0,5);
         clearError();
       });
       bookingTimes.appendChild(button);
     });
-
-    bookingDateHint.textContent = availableCount
-      ? `${availableCount} horário(s) disponível(is) em ${longDate.format(date)}.`
-      : `Não há horários livres em ${longDate.format(date)}.`;
+    bookingDateHint.textContent = `${slots.length} horário(s) disponível(is) em ${longDate.format(parseLocalDate(bookingDate.value))}.`;
   }
 
   function updateSummary() {
     const service = selectedService();
     if (!service || !bookingDate.value || !selectedTime) return;
-    const formattedDate = longDate.format(parseLocalDate(bookingDate.value));
-    const phone = bookingPhone.value.trim();
     bookingSummaryDetails.innerHTML = `
-      <div class="summary-line"><span>Procedimento</span><strong>${service.name}</strong></div>
-      <div class="summary-line"><span>Data</span><strong>${formattedDate}</strong></div>
+      <div class="summary-line"><span>Procedimento</span><strong>${escapeHtml(service.name)}</strong></div>
+      <div class="summary-line"><span>Data</span><strong>${longDate.format(parseLocalDate(bookingDate.value))}</strong></div>
       <div class="summary-line"><span>Horário</span><strong>${selectedTime}</strong></div>
       <div class="summary-line"><span>Cliente</span><strong>${escapeHtml(bookingName.value.trim())}</strong></div>
-      <div class="summary-line"><span>WhatsApp</span><strong>${escapeHtml(phone)}</strong></div>
+      <div class="summary-line"><span>WhatsApp</span><strong>${escapeHtml(bookingPhone.value.trim())}</strong></div>
     `;
-    summaryTotal.textContent = currency.format(service.price);
-    summaryDeposit.textContent = currency.format(service.price * 0.4);
-  }
-
-  function escapeHtml(value) {
-    return value.replace(/[&<>'"]/g, char => ({
-      '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#039;', '"':'&quot;'
-    }[char]));
-  }
-
-  function formatPhone(value) {
-    const digits = value.replace(/\D/g, '').slice(0, 11);
-    if (digits.length <= 2) return digits.replace(/(\d{0,2})/, '($1');
-    if (digits.length <= 6) return digits.replace(/(\d{2})(\d+)/, '($1) $2');
-    if (digits.length <= 10) return digits.replace(/(\d{2})(\d{4})(\d+)/, '($1) $2-$3');
-    return digits.replace(/(\d{2})(\d{5})(\d+)/, '($1) $2-$3');
+    summaryTotal.textContent = currency.format(Number(service.price));
+    summaryDeposit.textContent = currency.format(Number(service.price) * Number(service.deposit_percent) / 100);
+    const depositLabel = document.querySelector('.summary-deposit small');
+    if (depositLabel) depositLabel.textContent = `Sinal de ${Number(service.deposit_percent)}%`;
   }
 
   function resetBooking() {
     bookingForm.reset();
     selectedTime = '';
     servicePreview.classList.remove('is-visible');
-    bookingTimes.innerHTML = '<div class="booking-empty-times">Escolha uma data acima.</div>';
+    bookingTimes.innerHTML = '<div class="booking-empty-times">Escolha o procedimento e a data.</div>';
     bookingDateHint.textContent = 'Selecione uma data para visualizar os horários.';
     bookingConsent.checked = false;
     bookingForm.style.display = '';
@@ -2541,193 +2527,133 @@
   }
 
   function makeWhatsAppMessage(booking) {
-    const date = longDate.format(parseLocalDate(booking.date));
     const note = booking.notes ? `\n📝 *Observação:* ${booking.notes}` : '';
     return [
-      'Olá, Vitória! Gostaria de solicitar um agendamento no Studio Ferreira:',
+      'Olá, Vitória! Acabei de registrar uma solicitação no site do Studio Ferreira:',
       '',
       `✨ *Procedimento:* ${booking.serviceName}`,
-      `📅 *Data:* ${date}`,
+      `📅 *Data:* ${longDate.format(parseLocalDate(booking.date))}`,
       `🕐 *Horário:* ${booking.time}`,
       `👤 *Cliente:* ${booking.name}`,
       `📱 *WhatsApp:* ${booking.phone}`,
       `💰 *Valor:* ${currency.format(booking.price)}`,
-      `🔐 *Sinal de 40%:* ${currency.format(booking.deposit)}`,
+      `🔐 *Sinal:* ${currency.format(booking.deposit)}`,
       note,
       '',
-      'Entendo que o horário ainda precisa ser confirmado pelo Studio.'
+      'Aguardo a confirmação do Studio.'
     ].filter(Boolean).join('\n');
   }
 
-  function submitBooking(event) {
+  function readableBookingError(error) {
+    const text = `${error?.message || ''} ${error?.details || ''}`;
+    if (text.includes('HORARIO_INDISPONIVEL')) return 'Esse horário acabou de ser reservado. Volte e escolha outro horário.';
+    if (text.includes('AGUARDE_ANTES')) return 'A solicitação já foi enviada. Aguarde um momento antes de tentar novamente.';
+    if (text.includes('TELEFONE_INVALIDO')) return 'Informe um WhatsApp válido com DDD.';
+    return 'Não foi possível registrar o agendamento. Verifique sua conexão e tente novamente.';
+  }
+
+  async function submitBooking(event) {
     event.preventDefault();
     clearError();
     if (!bookingConsent.checked) {
-      showError('Marque a confirmação para enviar a solicitação.');
+      showError('Marque a confirmação para registrar a solicitação.');
       bookingConsent.focus();
       return;
     }
-
     const service = selectedService();
-    const bookings = getBookings();
-    const conflict = bookings.some(item => item.date === bookingDate.value && item.time === selectedTime);
-    if (conflict) {
-      showError('Este horário acabou de ser ocupado nesta demonstração. Volte e escolha outro.');
+    const whatsappWindow = window.open('', '_blank');
+    bookingSubmit.disabled = true;
+    bookingSubmit.textContent = 'Registrando...';
+
+    const { data, error } = await supabaseClient.rpc('create_public_appointment', {
+      p_service_id: service.id,
+      p_date: bookingDate.value,
+      p_start_time: selectedTime,
+      p_customer_name: bookingName.value.trim(),
+      p_customer_phone: bookingPhone.value.trim(),
+      p_notes: bookingNotes.value.trim() || null
+    });
+
+    bookingSubmit.disabled = false;
+    bookingSubmit.textContent = 'Confirmar solicitação';
+    if (error) {
+      if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
+      showError(readableBookingError(error));
+      if (`${error.message}`.includes('HORARIO_INDISPONIVEL')) {
+        goToStep(2);
+        await renderTimes();
+      }
       return;
     }
 
+    const result = Array.isArray(data) ? data[0] : data;
     const booking = {
-      id: `demo-${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      serviceId: service.id,
-      serviceName: service.name,
-      price: service.price,
-      deposit: Number((service.price * 0.4).toFixed(2)),
+      serviceName: result?.service_name || service.name,
+      price: Number(result?.price ?? service.price),
+      deposit: Number(result?.deposit_amount ?? (Number(service.price) * Number(service.deposit_percent) / 100)),
       date: bookingDate.value,
       time: selectedTime,
       name: bookingName.value.trim(),
       phone: bookingPhone.value.trim(),
-      notes: bookingNotes.value.trim(),
-      status: 'Aguardando confirmação',
-      createdAt: new Date().toISOString()
+      notes: bookingNotes.value.trim()
     };
 
-    if (!saveBookings([...bookings, booking])) {
-      showError('Não foi possível salvar no navegador. Verifique as permissões de armazenamento e tente novamente.');
-      return;
-    }
-
     const whatsappUrl = `https://wa.me/${STUDIO_WHATSAPP}?text=${encodeURIComponent(makeWhatsAppMessage(booking))}`;
-    window.open(whatsappUrl, '_blank', 'noopener');
+    if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.location.href = whatsappUrl;
+    else window.location.href = whatsappUrl;
     bookingForm.style.display = 'none';
     document.querySelector('.booking-progress').style.display = 'none';
     document.querySelector('.booking-demo-note').style.display = 'none';
     bookingSuccess.classList.add('is-visible');
-    renderDemoBookings();
   }
 
-  bookingService.addEventListener('change', () => {
+  bookingService.addEventListener('change', async () => {
     const service = selectedService();
+    selectedTime = '';
     if (!service) {
       servicePreview.classList.remove('is-visible');
       return;
     }
     servicePreviewName.textContent = service.name;
-    servicePreviewPrice.textContent = currency.format(service.price);
+    servicePreviewPrice.textContent = currency.format(Number(service.price));
+    const previewText = servicePreview.querySelector('span');
+    if (previewText) previewText.textContent = `${Number(service.deposit_percent)}% de sinal para confirmar a reserva`;
     servicePreview.classList.add('is-visible');
     clearError();
+    if (bookingDate.value) await renderTimes();
   });
 
-  bookingDate.addEventListener('change', () => {
-    renderTimes();
+  bookingDate.addEventListener('change', async () => {
+    await renderTimes();
     clearError();
   });
-
-  bookingPhone.addEventListener('input', event => {
-    event.target.value = formatPhone(event.target.value);
-  });
-
-  bookingNext.addEventListener('click', () => {
-    clearError();
-    if (validateStep(currentStep)) goToStep(currentStep + 1);
-  });
-
+  bookingPhone.addEventListener('input', event => event.target.value = formatPhone(event.target.value));
+  bookingNext.addEventListener('click', () => { if (validateStep(currentStep)) goToStep(currentStep + 1); });
   bookingBack.addEventListener('click', () => goToStep(currentStep - 1));
   bookingForm.addEventListener('submit', submitBooking);
   bookingClose.addEventListener('click', closeBooking);
   document.querySelectorAll('[data-open-booking]').forEach(button => button.addEventListener('click', openBooking));
   document.getElementById('bookingFinish').addEventListener('click', closeBooking);
   document.getElementById('bookingNew').addEventListener('click', resetBooking);
+  bookingOverlay.addEventListener('click', event => { if (event.target === bookingOverlay) closeBooking(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && bookingOverlay.classList.contains('is-open')) closeBooking(); });
 
-  bookingOverlay.addEventListener('click', event => {
-    if (event.target === bookingOverlay) closeBooking();
-  });
-
-  /* ---------- PAINEL LOCAL DE TESTE ---------- */
-  const demoPanelOverlay = document.getElementById('demoPanelOverlay');
-  const demoBookingList = document.getElementById('demoBookingList');
-
-  function openDemoPanel() {
-    renderDemoBookings();
-    demoPanelOverlay.classList.add('is-open');
-    demoPanelOverlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('booking-open');
-  }
-
-  function closeDemoPanel() {
-    demoPanelOverlay.classList.remove('is-open');
-    demoPanelOverlay.setAttribute('aria-hidden', 'true');
-    if (!bookingOverlay.classList.contains('is-open')) document.body.classList.remove('booking-open');
-  }
-
-  function renderDemoBookings() {
-    const bookings = getBookings().sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
-    demoBookingList.innerHTML = '';
-    if (!bookings.length) {
-      demoBookingList.innerHTML = '<div class="demo-panel-empty">Nenhum agendamento de teste salvo neste aparelho.</div>';
-      return;
-    }
-    bookings.forEach(booking => {
-      const card = document.createElement('article');
-      card.className = 'demo-booking-card';
-      card.innerHTML = `
-        <div class="demo-booking-top">
-          <div>
-            <h3>${escapeHtml(booking.serviceName)}</h3>
-            <p><strong>${escapeHtml(booking.name)}</strong><br>${longDate.format(parseLocalDate(booking.date))}, às ${booking.time}<br>${currency.format(booking.price)} · sinal ${currency.format(booking.deposit)}</p>
-          </div>
-          <button class="demo-delete" type="button" data-delete-booking="${booking.id}">Excluir</button>
-        </div>
-        <span class="demo-status">${escapeHtml(booking.status)}</span>
-      `;
-      demoBookingList.appendChild(card);
-    });
-  }
-
-  demoBookingList.addEventListener('click', event => {
-    const button = event.target.closest('[data-delete-booking]');
-    if (!button) return;
-    const id = button.dataset.deleteBooking;
-    saveBookings(getBookings().filter(item => item.id !== id));
-    renderDemoBookings();
-    if (bookingDate.value) renderTimes();
-  });
-
-  document.getElementById('demoPanelOpen').addEventListener('click', openDemoPanel);
-  document.getElementById('demoPanelClose').addEventListener('click', closeDemoPanel);
-  document.getElementById('demoClear').addEventListener('click', () => {
-    if (!getBookings().length) return;
-    if (window.confirm('Deseja apagar todos os agendamentos de teste deste aparelho?')) {
-      saveBookings([]);
-      renderDemoBookings();
-      if (bookingDate.value) renderTimes();
-    }
-  });
-  demoPanelOverlay.addEventListener('click', event => {
-    if (event.target === demoPanelOverlay) closeDemoPanel();
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key !== 'Escape') return;
-    if (demoPanelOverlay.classList.contains('is-open')) closeDemoPanel();
-    else if (bookingOverlay.classList.contains('is-open')) closeBooking();
-  });
-
-
-
-  /* Atalhos dos cards: abre a agenda com o procedimento selecionado */
   document.querySelectorAll('[data-book-service]').forEach(button => {
     button.addEventListener('click', () => {
-      const serviceId = button.dataset.bookService;
+      pendingServiceSlug = button.dataset.bookService || '';
       openBooking();
-      bookingService.value = serviceId;
-      bookingService.dispatchEvent(new Event('change', { bubbles:true }));
+      const service = SERVICES.find(item => item.slug === pendingServiceSlug);
+      if (service) {
+        bookingService.value = service.id;
+        bookingService.dispatchEvent(new Event('change', { bubbles:true }));
+        pendingServiceSlug = '';
+      }
       setTimeout(() => bookingService.focus(), 120);
     });
   });
 
-  buildServiceOptions();
   setDateLimits();
-  renderDemoBookings();
+  loadServices();
 </script>
 
 <script id="studio-parallax-script">
