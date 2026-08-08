@@ -1,0 +1,6 @@
+Alterações realizadas:
+- Foto do serviço 8D substituída pela imagem solicitada.
+- Foto do serviço 6D substituída pela imagem solicitada.
+- Fotos verticais dos serviços 3D, 6D, 8D e Fox foram giradas para melhor visualização nos cards.
+- Sistema de agenda e conexão com Supabase preservados.
+- Adicionadas 4 novas fotos à galeria “Conheça meus trabalhos” (fotos 11 a 14).
