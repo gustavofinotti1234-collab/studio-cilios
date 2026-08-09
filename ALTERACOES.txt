@@ -1,6 +1,10 @@
-Alterações realizadas:
-- Foto do serviço 8D substituída pela imagem solicitada.
-- Foto do serviço 6D substituída pela imagem solicitada.
-- Fotos verticais dos serviços 3D, 6D, 8D e Fox foram giradas para melhor visualização nos cards.
-- Sistema de agenda e conexão com Supabase preservados.
-- Adicionadas 4 novas fotos à galeria “Conheça meus trabalhos” (fotos 11 a 14).
+Versão atualizada com:
+- apresentação "Prazer, Vitória Ferreira" no estilo editorial solicitado;
+- Política de Atendimento com tolerância, acompanhantes e ambiente exclusivo;
+- Duração dos procedimentos de cílios;
+- Restrições informadas pela profissional;
+- pacotes mensais adicionados anteriormente;
+- galeria com 14 fotos;
+- fotos dos serviços de cílios e sobrancelhas ajustadas para horizontal;
+- agenda online, painel administrativo e integração Supabase mantidos.
+- Adicionado procedimento individual de Buço: R$ 10,00, com foto, descrição e contato pelo WhatsApp.
